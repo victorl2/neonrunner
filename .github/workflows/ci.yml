@@ -56,6 +56,18 @@ jobs:
       - name: Verify iron --version pin
         run: iron --version
 
+      - name: Patch missing diagnostics headers (Iron Linux tarball asymmetry)
+        # The v3.3.0-alpha Linux x86_64 tarball does NOT include
+        # lib/diagnostics/, but runtime/iron_runtime.h #include's
+        # diagnostics/diagnostics.h unconditionally. macOS arm64 tarball does
+        # ship it. We vendor the two files in vendor/iron-runtime/ and copy
+        # them into the install before building. See vendor/iron-runtime/README.md.
+        run: |
+          mkdir -p "$HOME/.iron/lib/diagnostics"
+          cp vendor/iron-runtime/diagnostics/diagnostics.h "$HOME/.iron/lib/diagnostics/diagnostics.h"
+          cp vendor/iron-runtime/diagnostics/diagnostics.c "$HOME/.iron/lib/diagnostics/diagnostics.c"
+          test -f "$HOME/.iron/lib/diagnostics/diagnostics.h"
+
       - name: Build (debug for sourcemap)
         run: bash scripts/build.sh
 
