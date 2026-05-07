@@ -1,0 +1,67 @@
+-- src/main.iron — NeonRunner Phase 1 branded splash.
+--
+-- Locked decisions (from CONTEXT.md):
+--   - Canvas 1280×720, centered (centering is the shell's job; main.iron just renders into it).
+--   - Branded NEONRUNNER splash: dark background + neon cyan/magenta rectangles flanking the wordmark.
+--   - Static composition; no input, no animation, no game logic in Phase 1.
+--
+-- Canonical web shape (Iron LIR pass `web_main_loop_split`; verified against examples/pong/pong.iron):
+--   - Window.init must be called inside main() before any state declarations or loop (E-703).
+--   - Single `while not Window.should_close()` loop directly inside main() (E-700/701).
+--   - All asset loads (none in Phase 1) must be inside main() AFTER Window.init, BEFORE the loop (E-502).
+--   - No `await` anywhere (E-501).
+
+import raylib
+
+-- GameState scaffolds the state machine all later phases will branch on.
+-- Phase 1 only renders TITLE; PLAYING / GAME_OVER / LEADERBOARD branches land in Phase 2+.
+enum GameState {
+    TITLE       = 0,
+    PLAYING     = 1,
+    GAME_OVER   = 2,
+    LEADERBOARD = 3,
+}
+
+func main() {
+    -- Locked 1280×720 per CONTEXT.md; mobile responsive sizing is Phase 4.
+    val SCREEN_W: Int = 1280
+    val SCREEN_H: Int = 720
+
+    Window.init(Int32(SCREEN_W), Int32(SCREEN_H), "NeonRunner")
+    Window.set_target_fps(Int32(60))
+
+    -- PHASE 4 NOTE: load all assets here (after Window.init, before the loop) — E-502.
+    -- Phase 1 has no assets.
+
+    var state: GameState = GameState.TITLE
+
+    -- Neon palette. Final hex values are Phase 1 placeholders; Phase 6 polish may swap.
+    val BG: Color           = Color(8,   8,  16, 255)   -- deep dark navy
+    val NEON_CYAN: Color    = Color(80, 240, 255, 255)
+    val NEON_MAGENTA: Color = Color(255, 80, 200, 255)
+
+    while not Window.should_close() {
+        Draw.begin()
+        Draw.clear(BG)
+
+        -- Phase 1: only TITLE state renders. Future phases dispatch via:
+        --   if state == GameState.PLAYING { ... }
+        --   else if state == GameState.GAME_OVER { ... }
+        --   ...etc.
+
+        -- Two neon rectangles flanking the wordmark — pure static composition.
+        Draw.rectangle(Int32(SCREEN_W/2 - 320), Int32(SCREEN_H/2 - 8),
+                       Int32(80), Int32(16), NEON_CYAN)
+        Draw.rectangle(Int32(SCREEN_W/2 + 240), Int32(SCREEN_H/2 - 8),
+                       Int32(80), Int32(16), NEON_MAGENTA)
+
+        -- Wordmark.
+        Draw.text("NEONRUNNER",
+                  Int32(SCREEN_W/2 - 220), Int32(SCREEN_H/2 - 32),
+                  Int32(64), NEON_CYAN)
+
+        Draw.end()
+    }
+
+    Window.close()
+}
