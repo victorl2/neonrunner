@@ -1,0 +1,15 @@
+name = "neonrunner"
+main = "src/index.ts"
+compatibility_date = "2026-05-06"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+# COOP+COEP for static assets is set via dist/web/_headers (copied from
+# public/_headers in scripts/build.sh). The Worker handler must explicitly
+# set COOP+COEP on its own JSON responses — see worker/src/index.ts.
+directory = "../dist/web"
+binding   = "ASSETS"
+run_worker_first = ["/api/*"]
+
+[observability]
+enabled = true
