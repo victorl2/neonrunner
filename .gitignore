@@ -2,6 +2,9 @@
 
 # Build output
 /dist/
+/target/
+/.iron-build/
+/build.log
 
 # Node
 /node_modules/
