@@ -5,6 +5,7 @@
 /target/
 /.iron-build/
 /build.log
+/playwright.log
 
 # Node
 /node_modules/

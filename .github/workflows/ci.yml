@@ -121,7 +121,7 @@ jobs:
           path: dist/web
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npx playwright test --project=chromium
+      - run: npx playwright test --config tests/e2e/playwright.config.ts --project=chromium
 
   # ── Deploy gate (main only) ─────────────────────────────────────────────────
   deploy-production:

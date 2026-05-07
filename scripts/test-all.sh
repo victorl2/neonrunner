@@ -18,6 +18,6 @@ echo "==> [4/5] worker lint + typecheck"
 (cd worker && npm run lint && npx tsc --noEmit)
 
 echo "==> [5/5] Playwright chromium smoke"
-npx playwright test --project=chromium
+npx playwright test --config tests/e2e/playwright.config.ts --project=chromium
 
 echo "==> ALL PASSED"

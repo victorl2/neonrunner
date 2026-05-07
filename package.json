@@ -6,7 +6,7 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "serve": "node scripts/serve.mjs",
-    "test:e2e": "npx playwright test --project=chromium",
+    "test:e2e": "npx playwright test --config tests/e2e/playwright.config.ts --project=chromium",
     "test:all": "bash scripts/test-all.sh"
   },
   "devDependencies": {
