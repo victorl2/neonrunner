@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NeonRunner</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #08081a; overflow: hidden; }
+    body { display: flex; align-items: center; justify-content: center; }
+    canvas#canvas {
+      display: block;
+      image-rendering: pixelated;
+      max-width: 100vw; max-height: 100vh;
+      box-shadow: 0 0 64px rgba(80, 240, 255, 0.15);
+    }
+  </style>
+  <script>
+    // Iron's COOP/COEP preflight — verbatim shape from web_shell_template.h.
+    if (!self.crossOriginIsolated) {
+      document.body.innerHTML = '<div style="background:red;color:white;padding:20px;font-family:monospace;font-size:16px;">ERROR: This Iron web build requires COOP+COEP headers for SharedArrayBuffer.</div>';
+      throw new Error('COOP/COEP headers missing');
+    }
+  </script>
+</head>
+<body>
+  <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1" width="1280" height="720"></canvas>
+
+  <script>
+    // Iron's expected Module setup — verbatim shape from web_shell_template.h.
+    var Module = {
+      print: (function () { return function (text) { console.log(text); }; })(),
+      canvas: document.getElementById('canvas'),
+      preRun: []
+    };
+
+    // Phase 1 fetch_top10 transport shim. Fires before Iron _main runs;
+    // result logged to console per Phase 1 success criterion.
+    Module.preRun.push(function () {
+      fetch('/api/scores')
+        .then(function (r) { return r.json(); })
+        .then(function (data) { console.log('[fetch_top10]', JSON.stringify(data)); })
+        .catch(function (err) { console.warn('[fetch_top10] failed', err && err.message); });
+    });
+
+    // Audio unlock — verbatim from web_shell_template.h.
+    function unlockAudio() {
+      if (typeof Module !== 'undefined' && Module._audio_resume) Module._audio_resume();
+      document.removeEventListener('keydown', unlockAudio);
+      document.removeEventListener('pointerdown', unlockAudio);
+    }
+    document.addEventListener('keydown', unlockAudio, { once: false });
+    document.addEventListener('pointerdown', unlockAudio, { once: false });
+
+    // WebGL context-lost handler — verbatim from web_shell_template.h.
+    document.getElementById('canvas').addEventListener('webglcontextlost', function (e) {
+      e.preventDefault();
+      document.body.innerHTML += '<div style="background:orange;color:black;padding:20px;font-family:monospace;">WebGL context lost. Please reload the page.</div>';
+    }, false);
+  </script>
+
+  {{{ SCRIPT }}}
+
+</body>
+</html>

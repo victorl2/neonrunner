@@ -1,0 +1,15 @@
+{
+  "name": "neonrunner-root",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "bash scripts/build.sh",
+    "serve": "node scripts/serve.mjs",
+    "test:e2e": "npx playwright test --project=chromium",
+    "test:all": "bash scripts/test-all.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  }
+}

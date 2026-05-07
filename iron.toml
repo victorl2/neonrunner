@@ -1,0 +1,15 @@
+[package]
+name = "neonrunner"
+version = "0.1.0"
+iron = "= 3.3.0-alpha"
+
+[dependencies]
+raylib = true
+
+[web]
+title = "NeonRunner"
+shell = "shell/index.html"
+assets = "assets/"
+initial_memory = 134217728
+stack_size = 1048576
+pthread_pool_size = 4

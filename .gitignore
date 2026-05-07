@@ -1,0 +1,25 @@
+.planning/
+
+# Build output
+/dist/
+
+# Node
+/node_modules/
+/worker/node_modules/
+/worker/.wrangler/
+
+# Wrangler local secrets
+/worker/.dev.vars
+.dev.vars
+
+# Playwright
+/test-results/
+/playwright-report/
+/tests/e2e/test-results/
+/tests/e2e/playwright-report/
+
+# Iron build cache
+/.iron-cache/
+
+# OS
+.DS_Store
