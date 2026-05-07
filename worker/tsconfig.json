@@ -9,7 +9,10 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["@cloudflare/workers-types"]
+    "types": [
+      "@cloudflare/workers-types",
+      "./node_modules/@cloudflare/vitest-pool-workers/types/cloudflare-test"
+    ]
   },
   "include": ["src/**/*.ts", "test/**/*.ts"]
 }

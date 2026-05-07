@@ -6,6 +6,9 @@
 /.iron-build/
 /build.log
 /playwright.log
+/vitest.log
+/eslint.log
+/tsc.log
 
 # Node
 /node_modules/
