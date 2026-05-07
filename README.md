@@ -2,7 +2,7 @@
 
 A 3D endless runner built in [Iron](https://github.com/victorl2/iron-lang) (alpha), compiled to WebAssembly via `iron build --target=web` (raylib + emscripten under the hood). Hosted on Cloudflare Workers Static Assets.
 
-Production URL: <PRODUCTION_URL_PLACEHOLDER>
+Production URL: https://neonrunner.victorock20.workers.dev
 
 ## Pinned Versions
 
