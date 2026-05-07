@@ -79,3 +79,5 @@ Auto-deploy:
 ## Phase 1 Status
 
 See `.planning/phases/01-build-pipeline-cross-origin-isolation-proof/` for context, research, validation strategy, and per-plan summaries.
+
+<!-- ci-preview-smoke marker — remove on merge -->
